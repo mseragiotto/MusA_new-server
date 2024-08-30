@@ -1,0 +1,1243 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "MUSA Server API",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:3022",
+        "description": "Local server"
+      }
+    ],
+    "paths": {
+      "/": {
+        "get": {
+          "summary": "Check server and database status",
+          "responses": {
+            "200": {
+              "description": "Server and Database are responding correctly"
+            },
+            "503": {
+              "description": "Server is responding but Database is not responding"
+            }
+          }
+        }
+      },
+      "/musa": {
+        "get": {
+          "summary": "Check server and database status",
+          "responses": {
+            "200": {
+              "description": "Server and Database are responding correctly"
+            },
+            "503": {
+              "description": "Server is responding but Database is not responding"
+            }
+          }
+        }
+      },
+      "/login": {
+        "post": {
+          "summary": "User login",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "username": {
+                      "type": "string"
+                    },
+                    "password": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["username", "password"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Login completed correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            },
+            "403": {
+              "description": "Login failed with no server errors"
+            }
+          }
+        }
+      },
+      "/verifySession": {
+        "post": {
+          "summary": "Verify session",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["sessionid"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Session verified correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            },
+            "403": {
+              "description": "Session does not exist"
+            }
+          }
+        }
+      },
+      "/logout": {
+        "post": {
+          "summary": "Logout user",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["sessionid"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Logout completed correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/logoutAll": {
+        "post": {
+          "summary": "Logout all users",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["sessionid"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "All users are logged out correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            },
+            "403": {
+              "description": "Permission denied"
+            }
+          }
+        }
+      },
+      "/getImage": {
+        "post": {
+          "summary": "Get image by ID",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["id"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Sent image correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/getAudio": {
+        "post": {
+          "summary": "Get audio by ID",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["id"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Sent audio correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/newImage": {
+        "post": {
+          "summary": "Add new image",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "base64": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["sessionid", "base64"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "New image added correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            },
+            "403": {
+              "description": "Permission denied"
+            },
+            "500": {
+              "description": "Image too large"
+            }
+          }
+        }
+      },
+      "/newAudio": {
+        "post": {
+          "summary": "Add new audio",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "base64": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["sessionid", "base64"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "New audio added correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            },
+            "403": {
+              "description": "Permission denied"
+            }
+          }
+        }
+      },
+      "/purgeUselessImages": {
+        "get": {
+          "summary": "Purge useless images",
+          "responses": {
+            "200": {
+              "description": "Images purged correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/deleteItem": {
+        "post": {
+          "summary": "Delete item",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "table": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["sessionid", "table", "id"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Item deleted correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            },
+            "403": {
+              "description": "Permission denied"
+            }
+          }
+        }
+      },
+      "/editStatus": {
+        "post": {
+          "summary": "Edit item status",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "table": {
+                      "type": "string"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "newStatus": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["sessionid", "table", "id", "newStatus"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Status edited correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            },
+            "403": {
+              "description": "Permission denied"
+            },
+            "423": {
+              "description": "Attempt to edit an uneditable version of an item"
+            }
+          }
+        }
+      },
+      "/getMuseums": {
+        "post": {
+          "summary": "Get all museums",
+          "responses": {
+            "200": {
+              "description": "Sent museums correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/newMuseum": {
+        "post": {
+          "summary": "Add new museum",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "latitude": {
+                      "type": "string"
+                    },
+                    "longitude": {
+                      "type": "string"
+                    },
+                    "address": {
+                      "type": "string"
+                    },
+                    "website": {
+                      "type": "string"
+                    },
+                    "geolocked": {
+                      "type": "string"
+                    },
+                    "ARicon": {
+                      "type": "string"
+                    },
+                    "logo": {
+                      "type": "string"
+                    },
+                    "backgroundImage": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "itemid": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["sessionid", "name", "latitude", "longitude", "address", "website", "geolocked", "ARicon", "logo", "backgroundImage", "version", "status"]
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "New museum added correctly"
+              },
+              "400": {
+                "description": "Failed with error"
+              },
+              "403": {
+                "description": "Permission denied"
+              }
+            }
+          }
+        }
+      },
+      "/editMuseum": {
+        "post": {
+          "summary": "Edit museum",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "column": {
+                      "type": "string"
+                    },
+                    "newValue": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["sessionid", "id", "column", "newValue"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Museum edited correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            },
+            "403": {
+              "description": "Permission denied"
+            },
+            "423": {
+              "description": "Attempt to edit an uneditable version of an item"
+            }
+          }
+        }
+      },
+      "/getWorks": {
+        "post": {
+          "summary": "Get all works",
+          "responses": {
+            "200": {
+              "description": "Sent works correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/getWorkImage": {
+        "post": {
+          "summary": "Get work image",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "workid": {
+                      "type": "integer"
+                    },
+                    "chapterid": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["sessionid", "workid", "chapterid"]
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Sent work image correctly"
+              },
+              "400": {
+                "description": "Failed with error"
+              },
+              "403": {
+                "description": "Permission denied"
+              }
+            }
+          }
+        }
+      },
+      "/newWork": {
+        "post": {
+          "summary": "Add new work",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "author": {
+                      "type": "string"
+                    },
+                    "museum": {
+                      "type": "string"
+                    },
+                    "mainimage": {
+                      "type": "string"
+                    },
+                    "thumbnail": {
+                      "type": "string"
+                    },
+                    "macroareas": {
+                      "type": "string"
+                    },
+                    "width": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "itemid": {
+                      "type": "integer"
+                    },
+                    "threedimensionalmodel": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["sessionid", "name", "author", "museum", "mainimage", "thumbnail", "macroareas", "width", "version", "status", "itemid", "threedimensionalmodel"]
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "New work added correctly"
+              },
+              "400": {
+                "description": "Failed with error"
+              },
+              "403": {
+                "description": "Permission denied"
+              }
+            }
+          }
+        }
+      },
+      "/editWork": {
+        "post": {
+          "summary": "Edit work",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "column": {
+                      "type": "string"
+                    },
+                    "newValue": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["sessionid", "id", "column", "newValue"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Work edited correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            },
+            "403": {
+              "description": "Permission denied"
+            },
+            "423": {
+              "description": "Attempt to edit an uneditable version of an item"
+            }
+          }
+        }
+      },
+      "/getAuthors": {
+        "post": {
+          "summary": "Get all authors",
+          "responses": {
+            "200": {
+              "description": "Sent authors correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/newAuthor": {
+        "post": {
+          "summary": "Add new author",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "bio": {
+                      "type": "string"
+                    },
+                    "image": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "itemid": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["sessionid", "name", "bio", "image", "version", "status"]
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "New author added correctly"
+              },
+              "400": {
+                "description": "Failed with error"
+              },
+              "403": {
+                "description": "Permission denied"
+              }
+            }
+          }
+        }
+      },
+      "/editAuthor": {
+        "post": {
+          "summary": "Edit author",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "column": {
+                      "type": "string"
+                    },
+                    "newValue": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["sessionid", "id", "column", "newValue"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Author edited correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            },
+            "403": {
+              "description": "Permission denied"
+            }
+          }
+        }
+      },
+      "/getChapters": {
+        "post": {
+          "summary": "Get all chapters",
+          "responses": {
+            "200": {
+              "description": "Sent chapters correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/newChapter": {
+        "post": {
+          "summary": "Add new chapter",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "text": {
+                      "type": "string"
+                    },
+                    "number": {
+                      "type": "integer"
+                    },
+                    "overlay": {
+                      "type": "string"
+                    },
+                    "audio": {
+                      "type": "string"
+                    },
+                    "work": {
+                      "type": "integer"
+                    },
+                    "toucharea": {
+                      "type": "string"
+                    },
+                    "version": {
+                      "type": "integer"
+                    },
+                    "status": {
+                      "type": "integer"
+                    },
+                    "itemid": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["sessionid", "title", "text", "number", "overlay", "audio", "work", "toucharea", "version", "status"]
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "New chapter added correctly"
+              },
+              "400": {
+                "description": "Failed with error"
+              },
+              "403": {
+                "description": "Permission denied"
+              }
+            }
+          }
+        }
+      },
+      "/editChapter": {
+        "post": {
+          "summary": "Edit chapter",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "column": {
+                      "type": "string"
+                    },
+                    "newValue": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["sessionid", "id", "column", "newValue"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Chapter edited correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            },
+            "403": {
+              "description": "Permission denied"
+            },
+            "423": {
+              "description": "Attempt to edit an uneditable version of an item"
+            }
+          }
+        }
+      },
+      "/newMacroareas": {
+        "post": {
+          "summary": "Add new macroareas",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "workid": {
+                      "type": "integer"
+                    },
+                    "colours": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      }
+                    }
+                  },
+                  "required": ["sessionid", "workid", "colours"]
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "New macroareas added correctly"
+              },
+              "400": {
+                "description": "Failed with error"
+              },
+              "403": {
+                "description": "Permission denied"
+              }
+            }
+          }
+        }
+      },
+      "/getMacroareas": {
+        "post": {
+          "summary": "Get all macroareas",
+          "responses": {
+            "200": {
+              "description": "Sent macroareas correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/editMacroarea": {
+        "post": {
+          "summary": "Edit macroarea",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "id": {
+                      "type": "integer"
+                    },
+                    "newValue": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["sessionid", "id", "newValue"]
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Macroarea edited correctly"
+              },
+              "400": {
+                "description": "Failed with error"
+              },
+              "403": {
+                "description": "Permission denied"
+              }
+            }
+          }
+        }
+      },
+      "/getChapterareas": {
+        "post": {
+          "summary": "Get all chapterareas",
+          "responses": {
+            "200": {
+              "description": "Sent chapterareas correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/editChapterareas": {
+        "post": {
+          "summary": "Edit chapterareas",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "sessionid": {
+                      "type": "integer"
+                    },
+                    "macroarea": {
+                      "type": "integer"
+                    },
+                    "chapter": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["sessionid", "macroarea", "chapter"]
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Chapterarea edited correctly"
+              },
+              "400": {
+                "description": "Failed with error"
+              },
+              "403": {
+                "description": "Permission denied"
+              }
+            }
+          }
+        }
+      },
+      "/syncData": {
+        "post": {
+          "summary": "Sync data",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "index": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "itemid": {
+                            "type": "integer"
+                          },
+                          "kind": {
+                            "type": "integer"
+                          },
+                          "version": {
+                            "type": "integer"
+                          }
+                        }
+                      }
+                    },
+                    "test": {
+                      "type": "boolean"
+                    }
+                  },
+                  "required": ["index"]
+                }
+              }
+            },
+            "responses": {
+              "200": {
+                "description": "Synced data correctly"
+              },
+              "400": {
+                "description": "Failed with error"
+              }
+            }
+          }
+        }
+      },
+      "/bundleData": {
+        "post": {
+          "summary": "Bundle data",
+          "responses": {
+            "200": {
+              "description": "Bundle created correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/dumpEverything": {
+        "post": {
+          "summary": "Dump everything",
+          "responses": {
+            "200": {
+              "description": "Dumped everything correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/get_museums": {
+        "get": {
+          "summary": "Get all museums",
+          "responses": {
+            "200": {
+              "description": "Sent museums correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/get_images": {
+        "get": {
+          "summary": "Get all images",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "lastImage",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Sent images correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/get_audio": {
+        "get": {
+          "summary": "Get all audio files",
+          "responses": {
+            "200": {
+              "description": "Sent audio files correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/get_authors": {
+        "get": {
+          "summary": "Get all authors",
+          "responses": {
+            "200": {
+              "description": "Sent authors correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/get_chapterareas": {
+        "get": {
+          "summary": "Get all chapterareas",
+          "responses": {
+            "200": {
+              "description": "Sent chapterareas correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/get_chapters": {
+        "get": {
+          "summary": "Get all chapters",
+          "responses": {
+            "200": {
+              "description": "Sent chapters correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/get_macroareas": {
+        "get": {
+          "summary": "Get all macroareas",
+          "responses": {
+            "200": {
+              "description": "Sent macroareas correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/get_works": {
+        "get": {
+          "summary": "Get all works",
+          "responses": {
+            "200": {
+              "description": "Sent works correctly"
+            },
+            "400": {
+              "description": "Failed with error"
+            }
+          }
+        }
+      },
+      "/lastUpdates": {
+        "get": {
+          "summary": "Get last updates",
+          "responses": {
+            "200": {
+              "description": "Sent last updates correctly"
+            }
+          }
+        }
+      }
+    }
+  }
+  

@@ -1,0 +1,1334 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+      "title": "MUSA Map Creator API",
+      "version": "1.0.0"
+    },
+    "servers": [
+      {
+        "url": "http://localhost:{port}",
+        "description": "Local server",
+        "variables": {
+          "port": {
+            "default": "3000"
+          }
+        }
+      }
+    ],
+    "paths": {
+      "/museum": {
+        "post": {
+          "summary": "Add a new museum",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "latitude": {
+                      "type": "string"
+                    },
+                    "longitude": {
+                      "type": "string"
+                    },
+                    "musaV1Id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["name", "latitude", "longitude", "musaV1Id"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Museum added successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get museums",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Museums retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a museum",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["id"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Museum deleted successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/image": {
+        "get": {
+          "summary": "Get an image",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": true
+            },
+            {
+              "in": "query",
+              "name": "version",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Image retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/floor": {
+        "post": {
+          "summary": "Add a new floor",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "name": {
+                      "type": "string"
+                    },
+                    "order": {
+                      "type": "integer"
+                    },
+                    "location": {
+                      "type": "object",
+                      "properties": {
+                        "latitude": {
+                          "type": "string"
+                        },
+                        "longitude": {
+                          "type": "string"
+                        },
+                        "rotation": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "museum": {
+                      "type": "integer"
+                    },
+                    "main": {
+                      "type": "boolean"
+                    },
+                    "image": {
+                      "type": "object",
+                      "properties": {
+                        "base64": {
+                          "type": "string"
+                        },
+                        "imgDimChanged": {
+                          "type": "boolean"
+                        },
+                        "isImageChanged": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "required": ["name", "order", "location", "museum", "main", "image"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Floor added successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get floors",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "museum",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Floors retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a floor",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "museum": {
+                      "type": "integer"
+                    },
+                    "main": {
+                      "type": "boolean"
+                    },
+                    "location": {
+                      "type": "object",
+                      "properties": {
+                        "latitude": {
+                          "type": "string"
+                        },
+                        "longitude": {
+                          "type": "string"
+                        },
+                        "rotation": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "dimensions": {
+                      "type": "object",
+                      "properties": {
+                        "meter": {
+                          "type": "object",
+                          "properties": {
+                            "width": {
+                              "type": "number"
+                            },
+                            "height": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "pixel": {
+                          "type": "object",
+                          "properties": {
+                            "width": {
+                              "type": "number"
+                            },
+                            "height": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "image": {
+                      "type": "object",
+                      "properties": {
+                        "base64": {
+                          "type": "string"
+                        },
+                        "imgDimChanged": {
+                          "type": "boolean"
+                        },
+                        "isImageChanged": {
+                          "type": "boolean"
+                        }
+                      }
+                    }
+                  },
+                  "required": ["id", "name", "museum", "main", "location", "dimensions", "image"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Floor updated successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a floor",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["id"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Floor deleted successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/floor/order": {
+        "put": {
+          "summary": "Update floor order",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "id": {
+                        "type": "integer"
+                      },
+                      "order": {
+                        "type": "integer"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Floor order updated successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/floor/user-image": {
+        "put": {
+          "summary": "Update floor user image",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "image": {
+                      "type": "object",
+                      "properties": {
+                        "base64": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": ["id", "image"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Floor user image updated successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/graph": {
+        "post": {
+          "summary": "Add a new graph",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "floor": {
+                      "type": "integer"
+                    },
+                    "cellSize": {
+                      "type": "object",
+                      "properties": {
+                        "meter": {
+                          "type": "number"
+                        }
+                      }
+                    },
+                    "dimensions": {
+                      "type": "object",
+                      "properties": {
+                        "meter": {
+                          "type": "object",
+                          "properties": {
+                            "width": {
+                              "type": "number"
+                            },
+                            "height": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "wallDistanceInMeter": {
+                      "type": "number"
+                    },
+                    "image": {
+                      "type": "object",
+                      "properties": {
+                        "id": {
+                          "type": "integer"
+                        },
+                        "base64": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": ["floor", "cellSize", "dimensions", "wallDistanceInMeter", "image"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Graph added successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get a graph",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Graph retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a graph",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["id"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Graph deleted successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/marker": {
+        "post": {
+          "summary": "Add a new marker",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "floor": {
+                      "type": "integer"
+                    },
+                    "location": {
+                      "type": "object",
+                      "properties": {
+                        "rotation": {
+                          "type": "number"
+                        },
+                        "pixel": {
+                          "type": "object",
+                          "properties": {
+                            "x": {
+                              "type": "number"
+                            },
+                            "y": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "meter": {
+                          "type": "object",
+                          "properties": {
+                            "x": {
+                              "type": "number"
+                            },
+                            "y": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "latitude": {
+                          "type": "string"
+                        },
+                        "longitude": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "image": {
+                      "type": "object",
+                      "properties": {
+                        "base64": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "musaV1Id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["floor", "location", "image", "musaV1Id"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Marker added successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get markers",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "museum",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "floor",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Markers retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a marker",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "title": {
+                      "type": "string"
+                    },
+                    "author": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "object",
+                      "properties": {
+                        "rotation": {
+                          "type": "number"
+                        },
+                        "pixel": {
+                          "type": "object",
+                          "properties": {
+                            "x": {
+                              "type": "number"
+                            },
+                            "y": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "meter": {
+                          "type": "object",
+                          "properties": {
+                            "x": {
+                              "type": "number"
+                            },
+                            "y": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "latitude": {
+                          "type": "string"
+                        },
+                        "longitude": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "dimensions": {
+                      "type": "object",
+                      "properties": {
+                        "pixel": {
+                          "type": "object",
+                          "properties": {
+                            "width": {
+                              "type": "number"
+                            },
+                            "height": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "meter": {
+                          "type": "object",
+                          "properties": {
+                            "width": {
+                              "type": "number"
+                            },
+                            "height": {
+                              "type": "number"
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "viewingPoint": {
+                      "type": "object",
+                      "properties": {
+                        "distanceInMeter": {
+                          "type": "number"
+                        },
+                        "pixel": {
+                          "type": "object",
+                          "properties": {
+                            "x": {
+                              "type": "number"
+                            },
+                            "y": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "meter": {
+                          "type": "object",
+                          "properties": {
+                            "x": {
+                              "type": "number"
+                            },
+                            "y": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "latitude": {
+                          "type": "string"
+                        },
+                        "longitude": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "image": {
+                      "type": "object",
+                      "properties": {
+                        "base64": {
+                          "type": "string"
+                        }
+                      }
+                    },
+                    "musaV1Id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["id", "title", "author", "location", "dimensions", "viewingPoint", "image", "musaV1Id"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Marker updated successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a marker",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["id"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Marker deleted successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/poi-category": {
+        "post": {
+          "summary": "Add a new POI category",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "museum": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "image": {
+                      "type": "object",
+                      "properties": {
+                        "base64": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": ["museum", "name", "image"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "POI category added successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get POI categories",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "museum",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "POI categories retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/poi": {
+        "post": {
+          "summary": "Add a new POI",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "floor": {
+                      "type": "integer"
+                    },
+                    "category": {
+                      "type": "integer"
+                    },
+                    "location": {
+                      "type": "object",
+                      "properties": {
+                        "pixel": {
+                          "type": "object",
+                          "properties": {
+                            "x": {
+                              "type": "number"
+                            },
+                            "y": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "meter": {
+                          "type": "object",
+                          "properties": {
+                            "x": {
+                              "type": "number"
+                            },
+                            "y": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "latitude": {
+                          "type": "string"
+                        },
+                        "longitude": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": ["floor", "category", "location"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "POI added successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get POIs",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "museum",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "floor",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            },
+            {
+              "in": "query",
+              "name": "id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": false
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "POIs retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "put": {
+          "summary": "Update a POI",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    },
+                    "name": {
+                      "type": "string"
+                    },
+                    "location": {
+                      "type": "object",
+                      "properties": {
+                        "pixel": {
+                          "type": "object",
+                          "properties": {
+                            "x": {
+                              "type": "number"
+                            },
+                            "y": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "meter": {
+                          "type": "object",
+                          "properties": {
+                            "x": {
+                              "type": "number"
+                            },
+                            "y": {
+                              "type": "number"
+                            }
+                          }
+                        },
+                        "latitude": {
+                          "type": "string"
+                        },
+                        "longitude": {
+                          "type": "string"
+                        }
+                      }
+                    }
+                  },
+                  "required": ["id", "name", "location"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "POI updated successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "delete": {
+          "summary": "Delete a POI",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": ["id"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "POI deleted successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/connection": {
+        "post": {
+          "summary": "Add new connections",
+          "requestBody": {
+            "required": true,
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "museum": {
+                      "type": "integer"
+                    },
+                    "connections": {
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "floor": {
+                            "type": "integer"
+                          },
+                          "location": {
+                            "type": "object",
+                            "properties": {
+                              "pixel": {
+                                "type": "object",
+                                "properties": {
+                                  "x": {
+                                    "type": "number"
+                                  },
+                                  "y": {
+                                    "type": "number"
+                                  }
+                                }
+                              },
+                              "meter": {
+                                "type": "object",
+                                "properties": {
+                                  "x": {
+                                    "type": "number"
+                                  },
+                                  "y": {
+                                    "type": "number"
+                                  }
+                                }
+                              },
+                              "latitude": {
+                                "type": "string"
+                              },
+                              "longitude": {
+                                "type": "string"
+                              }
+                            }
+                          }
+                        },
+                        "required": ["floor", "location"]
+                      }
+                    },
+                    "type": {
+                      "type": "string"
+                    },
+                    "name": {
+                      "type": "string"
+                    }
+                  },
+                  "required": ["museum", "connections", "type", "name"]
+                }
+              }
+            }
+          },
+          "responses": {
+            "200": {
+              "description": "Connections added successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        },
+        "get": {
+          "summary": "Get connections",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "museum",
+              "schema": {
+                "type": "integer"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Connections retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/api/museums": {
+        "get": {
+          "summary": "Get all museums",
+          "responses": {
+            "200": {
+              "description": "Museums retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/api/museumMap": {
+        "get": {
+          "summary": "Get museum map",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "id_museum",
+              "schema": {
+                "type": "integer"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Museum map retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/api/navigationMap": {
+        "get": {
+          "summary": "Get navigation map",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "id_museum",
+              "schema": {
+                "type": "integer"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Navigation map retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/api/museumFloors": {
+        "get": {
+          "summary": "Get museum floors",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "id_museum",
+              "schema": {
+                "type": "integer"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Museum floors retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/api/museumMarkers": {
+        "get": {
+          "summary": "Get museum markers",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "id_museum",
+              "schema": {
+                "type": "integer"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Museum markers retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/api/museumPoiCategories": {
+        "get": {
+          "summary": "Get museum POI categories",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "id_museum",
+              "schema": {
+                "type": "integer"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Museum POI categories retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      },
+      "/api/museum_id_navigation": {
+        "get": {
+          "summary": "Get museum ID by navigation",
+          "parameters": [
+            {
+              "in": "query",
+              "name": "musa_v1_id",
+              "schema": {
+                "type": "integer"
+              },
+              "required": true
+            }
+          ],
+          "responses": {
+            "200": {
+              "description": "Museum ID retrieved successfully"
+            },
+            "500": {
+              "description": "Server error"
+            }
+          }
+        }
+      }
+    },
+    "components": {}
+  }
+  

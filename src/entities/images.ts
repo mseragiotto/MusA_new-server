@@ -6,6 +6,6 @@ export class Image {
   @PrimaryGeneratedColumn()
   id: number | undefined;
 
-  @Column()
+  @Column({ type: 'varchar'})
   base64: string | undefined;
 }

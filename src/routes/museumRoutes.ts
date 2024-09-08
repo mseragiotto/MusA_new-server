@@ -1,22 +1,22 @@
 import { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify';
-import { getArtworks, getArtwork, addArtwork, updateArtwork, deleteArtwork } from '../controllers/artworkController';
+import { getMuseums, getMuseum, addMuseum, updateMuseum, deleteMuseum } from '../controllers/museumController';
 
-const artworkRoutes: FastifyPluginAsync = async (server) => {
+const museumRoutes: FastifyPluginAsync = async (server) => {
   server.get('/', async (request: FastifyRequest, reply: FastifyReply) => {
-    await getArtworks(server, request, reply);
+    await getMuseums(server, request, reply);
   });
   server.get('/:id', async (request: FastifyRequest, reply: FastifyReply) => {
-    await getArtwork(server, request, reply);
+    await getMuseum(server, request, reply);
   });
   server.post('/', async (request: FastifyRequest, reply: FastifyReply) => {
-    await addArtwork(server, request, reply);
+    await addMuseum(server, request, reply);
   });
   server.put('/:id', async (request: FastifyRequest, reply: FastifyReply) => {
-    await updateArtwork(server, request, reply);
+    await updateMuseum(server, request, reply);
   });
   server.delete('/:id', async (request: FastifyRequest, reply: FastifyReply) => {
-    await deleteArtwork(server, request, reply);
+    await deleteMuseum(server, request, reply);
   });
 };
 
-export default artworkRoutes;
+export default museumRoutes;

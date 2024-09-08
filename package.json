@@ -4,10 +4,10 @@
   "description": "New, re-engineered version of the MusA server service, which collapses the existing MusA-Management and MusA-MapCreator solutions in a single one.",
   "main": "index.ts",
   "scripts": {
-    "start": "ts-node-dev src/index.ts",
+    "dev": "ts-node-dev src/index.ts",
+    "start": "tsc && ts-node dist/index.js",
     "build": "tsc",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "gen-diagram": "ts-node node_modules/erdia/dist/cjs/cli.cjs build -d dataSourceConfig.ts -o dist/entity --format html"
+    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Matteo Seragiotto (matteo.seragiotto@studenti.unimi.it)",
   "license": "ISC",
@@ -25,6 +25,5 @@
     "ts-node": "~10.9.2",
     "ts-node-dev": "~2.0.0",
     "typescript": "~5.5.3"
-  },
-  "type": "module"
+  }
 }

@@ -4,6 +4,7 @@ import plugin from 'typeorm-fastify-plugin'
 import typeorm from 'typeorm';
 import routes from "./routes";
 import dotenv from "dotenv";
+import fastify from "fastify";
 
 dotenv.config();
 
@@ -45,7 +46,7 @@ server.register(routes);
 const start = async () => {
   try {
     await server.listen({ port: 3000 });
-    console.log("Server started on http://localhost:3000");
+    server.log.info("Server started on http://localhost:3000");
   } catch (err) {
     server.log.error(err);
     process.exit(1);

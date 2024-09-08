@@ -1,8 +1,44 @@
 import { FastifyPluginAsync } from 'fastify';
+import arlArtworkRoutes from './arlArtworkRoutes';
+import arlFloorRoutes from './arlFloorRoutes';
+import artworkRoutes from './artworkRoutes';
+import audioRoutes from './audioRoutes';
 import authorRoutes from './authorRoutes';
+import chapterAreaRoutes from './chapterAreaRoutes';
+import chapterRoutes from './chapterRoutes';
+import connectionGroupRoutes from './connectionGroupRoutes';
+import floorConnectionRoutes from './floorConnectionRoutes';
+import floorRoutes from './floorRoutes';
+import graphRoutes from './graphRoutes';
+import imageRoutes from './imageRoutes';
+import macroareaRoutes from './macroareaRoutes';
+import museumRoutes from './museumRoutes';
+import pointOfInterestCategoryRoutes from './pointOfInterestCategoryRoutes';
+import pointOfInterestRoutes from './pointOfInterestRoutes';
+import rolemRoutes from './roleRoutes';
+import routeRoutes from './routeRoutes';
+import userRoutes from './userRoutes';
 
 const routes: FastifyPluginAsync = async (server) => {
+  server.register(arlArtworkRoutes, { prefix: '/arl-artworks' });
+  server.register(arlFloorRoutes, { prefix: '/arl-floors' });
+  server.register(artworkRoutes, { prefix: '/artworks' });
+  server.register(audioRoutes, { prefix: '/audios' });
   server.register(authorRoutes, { prefix: '/authors' });
+  server.register(chapterAreaRoutes, { prefix: '/chapter-areas' });
+  server.register(chapterRoutes, { prefix: '/chapters' });
+  server.register(connectionGroupRoutes, { prefix: '/connection-groups' });
+  server.register(floorConnectionRoutes, { prefix: '/floor-connections' });
+  server.register(floorRoutes, { prefix: '/floors' });
+  server.register(graphRoutes, { prefix: '/graphs' });
+  server.register(imageRoutes, { prefix: '/images' });
+  server.register(macroareaRoutes, { prefix: '/macroareas' });
+  server.register(museumRoutes, { prefix: '/museums' });
+  server.register(pointOfInterestCategoryRoutes, { prefix: '/point-of-interest-categories' });
+  server.register(pointOfInterestRoutes, { prefix: '/point-of-interests' });
+  server.register(rolemRoutes, { prefix: '/roles' });
+  server.register(routeRoutes, { prefix: '/routes' });
+  server.register(userRoutes, { prefix: '/users' });
 };
 
 export default routes;

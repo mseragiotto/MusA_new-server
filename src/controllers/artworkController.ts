@@ -14,12 +14,35 @@ export const addArtwork = async (server: FastifyInstance, request: FastifyReques
 
 export const updateArtwork = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
     const { id } = request.params as { id: number };
-    const artwork = await server.orm.getRepository(Artwork).update(id, request.body as DeepPartial<Artwork>);
-    reply.send(artwork);
+    const artworkRepository = server.orm.getRepository(Artwork);
+    const artwork = await artworkRepository.findOne({ where: { id } });
+
+    if (!artwork) {
+        reply.status(404).send({ message: 'Artwork not found' });
+        return;
+    } else {
+        artworkRepository.merge(artwork, request.body as DeepPartial<Artwork>);
+        const updatedArtwork = await artworkRepository.save(artwork);
+        reply.send(updatedArtwork);
+    }
+    
+    //const artwork = await server.orm.getRepository(Artwork).update(id, request.body as DeepPartial<Artwork>);
+    //reply.send(artwork);
 };
 
 export const deleteArtwork = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
     const { id } = request.params as { id: number };
     const result = await server.orm.getRepository(Artwork).delete(id);
-    reply.send(result);
+
+    if (result.affected) {
+        reply.send({ message: 'Artwork deleted successfully' });
+    } else {
+        reply.status(404).send({ message: 'Artwork not found' });
+    }
+};
+
+export const getArtwork = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
+    const { id } = request.params as { id: number };
+    const artwork = await server.orm.getRepository(Artwork).findOne({ where: { id } });
+    reply.send(artwork);
 };

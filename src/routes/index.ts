@@ -18,6 +18,9 @@ import pointOfInterestRoutes from './pointOfInterestRoutes';
 import rolemRoutes from './roleRoutes';
 import routeRoutes from './routeRoutes';
 import userRoutes from './userRoutes';
+import routeArtworkRoutes from './routeArtworkRoutes';
+import databaseRoutes from './databaseRoutes';
+import authRoutes from './authRoutes';
 
 const routes: FastifyPluginAsync = async (server) => {
   server.register(arlArtworkRoutes, { prefix: '/arl-artworks' });
@@ -37,8 +40,11 @@ const routes: FastifyPluginAsync = async (server) => {
   server.register(pointOfInterestCategoryRoutes, { prefix: '/point-of-interest-categories' });
   server.register(pointOfInterestRoutes, { prefix: '/point-of-interests' });
   server.register(rolemRoutes, { prefix: '/roles' });
+  server.register(routeArtworkRoutes, { prefix: '/route-artworks' });
   server.register(routeRoutes, { prefix: '/routes' });
   server.register(userRoutes, { prefix: '/users' });
+  server.register(databaseRoutes, { prefix: '/database' });
+  server.register(authRoutes, { prefix: '/auth' });
 };
 
 export default routes;

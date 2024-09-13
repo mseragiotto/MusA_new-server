@@ -1,14 +1,16 @@
 {
-    "compilerOptions": {
-      "outDir": "./dist",
-      "sourceMap": true,
-      "strict": true,
-      "module": "commonjs",
-      "esModuleInterop": true,
-      "target": "es6",
-      "experimentalDecorators": true,
-      "emitDecoratorMetadata": true
-    },
-    "include": ["src/**/*"]
-  }
-  
+  "compilerOptions": {
+    "outDir": "./dist",
+    "sourceMap": true,
+    "strict": true,
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "target": "es6",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true
+  },
+  "include": [
+    "src/**/*",
+    "src/fastify.d.ts"
+  ]
+}

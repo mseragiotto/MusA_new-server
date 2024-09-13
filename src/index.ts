@@ -1,10 +1,11 @@
 import "reflect-metadata";
 import Fastify from "fastify";
+import fastifyJWT from "@fastify/jwt";
 import plugin from 'typeorm-fastify-plugin'
 import typeorm from 'typeorm';
 import routes from "./routes";
+import management from "./server/management";
 import dotenv from "dotenv";
-import fastify from "fastify";
 
 dotenv.config();
 
@@ -30,6 +31,18 @@ dotenv.config();
 
 const server = Fastify({ logger: true });
 
+server.decorate("authenticate", async (request: { jwtVerify: () => any; }, reply: { send: (arg0: unknown) => void; }) => {
+  try {
+    await request.jwtVerify();
+  } catch (err) {
+    reply.send(err);
+  }
+});
+
+server.register(fastifyJWT, {
+  secret: process.env.JWT_SECRET || "supersecretkey",
+});
+
 server.register(plugin, {
   type: 'postgres',
   host: process.env.DB_HOST,
@@ -42,6 +55,7 @@ server.register(plugin, {
 });
 
 server.register(routes);
+server.register(management);
 
 const start = async () => {
   try {

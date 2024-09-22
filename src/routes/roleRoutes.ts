@@ -5,16 +5,16 @@ const roleRoutes: FastifyPluginAsync = async (server) => {
   server.get('/', { preValidation: [server.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
     await getRoles(server, request, reply);
   });
-  server.get('/:id', { preValidation: [server.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
+  server.get('/:level', { preValidation: [server.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
     await getRole(server, request, reply);
   });
   server.post('/', { preValidation: [server.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
     await addRole(server, request, reply);
   });
-  server.put('/:id', { preValidation: [server.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
+  server.put('/:level', { preValidation: [server.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
     await updateRole(server, request, reply);
   });
-  server.delete('/:id', { preValidation: [server.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
+  server.delete('/:level', { preValidation: [server.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
     await deleteRole(server, request, reply);
   });
 };

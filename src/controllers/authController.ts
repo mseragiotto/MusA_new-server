@@ -1,5 +1,4 @@
 import { FastifyReply, FastifyRequest, FastifyInstance } from 'fastify';
-import { DeepPartial } from 'typeorm';
 import { User } from '../entities/users';
 import { Role } from '../entities/roles';
 
@@ -27,19 +26,19 @@ export const login = async (server: FastifyInstance, request: FastifyRequest, re
   const userRepository = server.orm.getRepository(User);
   const { username, password } = request.body as { username: string, password: string };
 
-  // Verifica se l'utente esiste
+  // Check if the user exists
   const user = await userRepository.findOne({ where: { username } });
   if (!user) {
     return reply.status(401).send({ message: "Invalid username or password" });
   }
 
-  // Verifica la password
+  // Check if the password is correct
   const isValidPassword = await user.checkPassword(password);
   if (!isValidPassword) {
     return reply.status(401).send({ message: "Invalid username or password" });
   }
 
-  // Genera il token JWT
+  // JWT token generation
   const token = await reply.jwtSign({ id: user.id, username: user.username, role: user.role }, { expiresIn: '1h' });
   reply.send({ token });
 };

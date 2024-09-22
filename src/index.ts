@@ -2,9 +2,8 @@ import "reflect-metadata";
 import Fastify from "fastify";
 import fastifyJWT from "@fastify/jwt";
 import plugin from 'typeorm-fastify-plugin'
-import typeorm from 'typeorm';
 import routes from "./routes";
-import management from "./server/management";
+import management from "./routes/healthRoute";
 import dotenv from "dotenv";
 
 dotenv.config();
@@ -55,7 +54,6 @@ server.register(plugin, {
 });
 
 server.register(routes);
-server.register(management);
 
 const start = async () => {
   try {

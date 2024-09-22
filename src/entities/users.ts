@@ -22,7 +22,7 @@ export class User {
     this.password = await bcrypt.hash(rawPassword, 10);
   }
 
-  // Metodo per verificare la password
+  // Method to check the password
   async checkPassword(rawPassword: string): Promise<boolean> {
     if (this.password === undefined) {
       return false;

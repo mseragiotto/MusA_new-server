@@ -21,6 +21,7 @@ import userRoutes from './userRoutes';
 import routeArtworkRoutes from './routeArtworkRoutes';
 import databaseRoutes from './databaseRoutes';
 import authRoutes from './authRoutes';
+import healthRoute from './healthRoute';
 
 const routes: FastifyPluginAsync = async (server) => {
   server.register(arlArtworkRoutes, { prefix: '/arl-artworks' });
@@ -45,6 +46,7 @@ const routes: FastifyPluginAsync = async (server) => {
   server.register(userRoutes, { prefix: '/users' });
   server.register(databaseRoutes, { prefix: '/database' });
   server.register(authRoutes, { prefix: '/auth' });
+  server.register(healthRoute, { prefix: '/health' });
 };
 
 export default routes;

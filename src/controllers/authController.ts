@@ -9,7 +9,7 @@ export const register = async (server: FastifyInstance, request: FastifyRequest,
   // Verify if the user already exists
   const existingUser = await userRepository.findOne({ where: { username } });
   if (existingUser) {
-    return reply.status(400).send({ message: "Username already taken" });
+    return reply.status(400).send({ message: 'Username already taken' });
   }
 
   // New user creation
@@ -29,13 +29,13 @@ export const login = async (server: FastifyInstance, request: FastifyRequest, re
   // Check if the user exists
   const user = await userRepository.findOne({ where: { username } });
   if (!user) {
-    return reply.status(401).send({ message: "Invalid username or password" });
+    return reply.status(401).send({ message: 'Invalid username or password' });
   }
 
   // Check if the password is correct
   const isValidPassword = await user.checkPassword(password);
   if (!isValidPassword) {
-    return reply.status(401).send({ message: "Invalid username or password" });
+    return reply.status(401).send({ message: 'Invalid username or password' });
   }
 
   // JWT token generation

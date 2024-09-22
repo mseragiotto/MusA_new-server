@@ -1,11 +1,11 @@
 // Purpose: Contains the entity for the roles table.
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column } from 'typeorm';
 
 @Entity()
 export class Role {
-    @PrimaryGeneratedColumn()
+  @PrimaryGeneratedColumn()
     level: number | undefined;
 
-    @Column({ type: 'varchar', nullable: true })
+  @Column({ type: 'varchar', nullable: true })
     description: string | undefined;
 }

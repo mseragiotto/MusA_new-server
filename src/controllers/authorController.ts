@@ -25,9 +25,6 @@ export const updateAuthor = async (server: FastifyInstance, request: FastifyRequ
     const updatedAuthor = await authorRepository.save(author);
     reply.send(updatedAuthor);
   }
-
-  //const author = await server.orm.getRepository(Author).update(id, request.body as DeepPartial<Author>);
-  //reply.send(author);
 };
 
 export const deleteAuthor = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

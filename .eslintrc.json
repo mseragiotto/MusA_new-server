@@ -1,0 +1,28 @@
+{
+  "root": true,
+  "parser": "@typescript-eslint/parser",
+  "extends": [
+    "airbnb-typescript/base",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:import/recommended"
+  ],
+  "parserOptions": {
+    "project": "./tsconfig.json"
+  },
+  "plugins": [
+    "@typescript-eslint"
+  ],
+  "rules": {
+    "import/prefer-default-export": "off", // Disable default exports
+    "@typescript-eslint/no-unused-vars": [
+      "error",
+      {
+        "argsIgnorePattern": "^_"
+      }
+    ], // Ignore unused variables starting with an underscore
+    "@typescript-eslint/naming-convention": "off", // Disable the naming-convention rule
+    "import/named": "off", // Disable named import
+    "import/extensions": "off", // Disable file extension check
+    "import/no-extraneous-dependencies": "off" // Disable extraneous dependencies check
+  }
+}

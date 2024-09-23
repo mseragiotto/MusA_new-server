@@ -18,8 +18,9 @@ export const getArlArtwork = async (server: FastifyInstance, request: FastifyReq
 };
 
 export const addArlArtwork = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const arlArtwork = await server.orm.getRepository(ArlArtwork).save(request.body as DeepPartial<ArlArtwork>);
-  reply.send(arlArtwork);
+  const arlArtwork: ArlArtwork = server.orm.getRepository(ArlArtwork).create(request.body as DeepPartial<ArlArtwork>);
+  const savedArlArtwork = await server.orm.getRepository(ArlArtwork).save(arlArtwork);
+  reply.send(savedArlArtwork);
 };
 
 export const updateArlArtwork = async (server: FastifyInstance, request: FastifyRequest<{ Params: { artwork: number, arl_floor: number } }>, reply: FastifyReply) => {

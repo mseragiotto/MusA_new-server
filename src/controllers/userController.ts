@@ -8,8 +8,9 @@ export const getUsers = async (server: FastifyInstance, request: FastifyRequest,
 };
 
 export const addUser = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const user = await server.orm.getRepository(User).save(request.body as DeepPartial<User>);
-  reply.send(user);
+  const user: User = server.orm.getRepository(User).create(request.body as DeepPartial<User>);
+  const savedUser = await server.orm.getRepository(User).save(user);
+  reply.send(savedUser);
 };
 
 export const updateUser = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

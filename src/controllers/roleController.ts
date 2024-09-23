@@ -8,8 +8,9 @@ export const getRoles = async (server: FastifyInstance, request: FastifyRequest,
 };
 
 export const addRole = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const role = await server.orm.getRepository(Role).save(request.body as DeepPartial<Role>);
-  reply.send(role);
+  const role: Role = server.orm.getRepository(Role).create(request.body as DeepPartial<Role>);
+  const savedRole = await server.orm.getRepository(Role).save(role);
+  reply.send(savedRole);
 };
 
 export const updateRole = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

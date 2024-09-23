@@ -8,8 +8,9 @@ export const getFloorsConnections = async (server: FastifyInstance, request: Fas
 };
 
 export const addFloorsConnection = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const floorsConnection = await server.orm.getRepository(FloorsConnection).save(request.body as DeepPartial<FloorsConnection>);
-  reply.send(floorsConnection);
+  const floorsConnection: FloorsConnection = server.orm.getRepository(FloorsConnection).create(request.body as DeepPartial<FloorsConnection>);
+  const savedFloorsConnection = await server.orm.getRepository(FloorsConnection).save(floorsConnection);
+  reply.send(savedFloorsConnection);
 };
 
 export const updateFloorsConnection = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

@@ -8,8 +8,9 @@ export const getArtworks = async (server: FastifyInstance, request: FastifyReque
 };
 
 export const addArtwork = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const artwork = await server.orm.getRepository(Artwork).save(request.body as DeepPartial<Artwork>);
-  reply.send(artwork);
+  const artwork: Artwork = server.orm.getRepository(Artwork).create(request.body as DeepPartial<Artwork>);
+  const savedArtwork = await server.orm.getRepository(Artwork).save(artwork);
+  reply.send(savedArtwork);
 };
 
 export const updateArtwork = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

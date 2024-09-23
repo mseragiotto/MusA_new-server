@@ -8,8 +8,9 @@ export const getImages = async (server: FastifyInstance, request: FastifyRequest
 };
 
 export const addImage = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const image = await server.orm.getRepository(Image).save(request.body as DeepPartial<Image>);
-  reply.send(image);
+  const image: Image = server.orm.getRepository(Image).create(request.body as DeepPartial<Image>);
+  const savedImage = await server.orm.getRepository(Image).save(image);
+  reply.send(savedImage);
 };
 
 export const updateImage = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

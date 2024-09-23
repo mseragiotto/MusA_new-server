@@ -1,5 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify';
 import { Route } from '../entities/routes';
+import { Museum } from '../entities/museums';
 import { DeepPartial } from 'typeorm';
 
 export const getRoutes = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
@@ -8,8 +9,19 @@ export const getRoutes = async (server: FastifyInstance, request: FastifyRequest
 };
 
 export const addRoute = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const route = await server.orm.getRepository(Route).save(request.body as DeepPartial<Route>);
-  reply.send(route);
+  /*const route: Route = server.orm.getRepository(Route).create(request.body as DeepPartial<Route>);
+  const savedRoute = await server.orm.getRepository(Route).save(route);
+  reply.send(savedRoute);*/
+  const { museumId, description, name } = request.body as { museumId: number; description: string; name: string };
+
+  const museum = await server.orm.getRepository(Museum).findOne({ where: { id: museumId } });
+  if (!museum) {
+    return reply.status(404).send({ message: 'Error: provided Museum id not found' });
+  }
+
+  const route: Route = server.orm.getRepository(Route).create({ name, description, museum });
+  const savedRoute = await server.orm.getRepository(Route).save(route);
+  reply.send(savedRoute);
 };
 
 export const updateRoute = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

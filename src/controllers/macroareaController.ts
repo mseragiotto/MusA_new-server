@@ -8,8 +8,9 @@ export const getMacroareas = async (server: FastifyInstance, request: FastifyReq
 };
 
 export const addMacroarea = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const macroarea = await server.orm.getRepository(Macroarea).save(request.body as DeepPartial<Macroarea>);
-  reply.send(macroarea);
+  const macroarea: Macroarea = server.orm.getRepository(Macroarea).create(request.body as DeepPartial<Macroarea>);
+  const savedMacroarea = await server.orm.getRepository(Macroarea).save(macroarea);
+  reply.send(savedMacroarea);
 };
 
 export const updateMacroarea = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

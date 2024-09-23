@@ -8,8 +8,9 @@ export const getArlFloors = async (server: FastifyInstance, request: FastifyRequ
 };
 
 export const addArlFloor = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const arlFloor = await server.orm.getRepository(ArlFloor).save(request.body as DeepPartial<ArlFloor>);
-  reply.send(arlFloor);
+  const arlFloor: ArlFloor = server.orm.getRepository(ArlFloor).create(request.body as DeepPartial<ArlFloor>);
+  const savedArlFloor = await server.orm.getRepository(ArlFloor).save(arlFloor);
+  reply.send(savedArlFloor);
 };
 
 export const updateArlFloor = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

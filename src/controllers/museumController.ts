@@ -8,8 +8,9 @@ export const getMuseums = async (server: FastifyInstance, request: FastifyReques
 };
 
 export const addMuseum = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const museum = await server.orm.getRepository(Museum).save(request.body as DeepPartial<Museum>);
-  reply.send(museum);
+  const museum: Museum = server.orm.getRepository(Museum).create(request.body as DeepPartial<Museum>);
+  const savedMuseum = await server.orm.getRepository(Museum).save(museum);
+  reply.send(savedMuseum);
 };
 
 export const updateMuseum = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

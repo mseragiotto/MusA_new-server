@@ -53,6 +53,7 @@ export class Museum {
   @BeforeInsert()
   setCreationDateAndVersion() {
     const now = new Date();
+    console.log('DEBUG ------> BeforeInsert Hook Called!');
     this.creation_date = now;                   // Creation date initialized with the current date
     this.last_update = now;                     // Last update initialized with the current date
     this.version = 1;                           // Version initialized with 1 

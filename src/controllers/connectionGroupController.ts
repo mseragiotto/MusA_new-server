@@ -8,8 +8,9 @@ export const getConnectionGroups = async (server: FastifyInstance, request: Fast
 };
 
 export const addConnectionGroup = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const connectionGroup = await server.orm.getRepository(ConnectionGroup).save(request.body as DeepPartial<ConnectionGroup>);
-  reply.send(connectionGroup);
+  const connectionGroup: ConnectionGroup = server.orm.getRepository(ConnectionGroup).create(request.body as DeepPartial<ConnectionGroup>);
+  const savedConnectionGroup = await server.orm.getRepository(ConnectionGroup).save(connectionGroup);
+  reply.send(savedConnectionGroup);
 };
 
 export const updateConnectionGroup = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

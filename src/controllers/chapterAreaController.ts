@@ -8,8 +8,9 @@ export const getChapterAreas = async (server: FastifyInstance, request: FastifyR
 };
 
 export const addChapterArea = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const chapterArea = await server.orm.getRepository(ChapterArea).save(request.body as DeepPartial<ChapterArea>);
-  reply.send(chapterArea);
+  const chapterArea: ChapterArea = server.orm.getRepository(ChapterArea).create(request.body as DeepPartial<ChapterArea>);
+  const savedChapterArea = await server.orm.getRepository(ChapterArea).save(chapterArea);
+  reply.send(savedChapterArea);
 };
 
 export const updateChapterArea = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

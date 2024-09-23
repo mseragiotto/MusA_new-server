@@ -8,8 +8,9 @@ export const getAuthors = async (server: FastifyInstance, request: FastifyReques
 };
 
 export const addAuthor = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const author = await server.orm.getRepository(Author).save(request.body as DeepPartial<Author>);
-  reply.send(author);
+  const author: Author = server.orm.getRepository(Author).create(request.body as DeepPartial<Author>);
+  const savedAuthor = await server.orm.getRepository(Author).save(author);
+  reply.send(savedAuthor);
 };
 
 export const updateAuthor = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

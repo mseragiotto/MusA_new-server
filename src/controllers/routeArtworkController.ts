@@ -8,8 +8,9 @@ export const getRouteArtworks = async (server: FastifyInstance, request: Fastify
 };
 
 export const addRouteArtwork = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const routeArtwork = await server.orm.getRepository(RouteArtwork).save(request.body as DeepPartial<RouteArtwork>);
-  reply.send(routeArtwork);
+  const routeArtwork: RouteArtwork = server.orm.getRepository(RouteArtwork).create(request.body as DeepPartial<RouteArtwork>);
+  const savedRouteArtwork = await server.orm.getRepository(RouteArtwork).save(routeArtwork);
+  reply.send(savedRouteArtwork);
 };
 
 export const updateRouteArtwork = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

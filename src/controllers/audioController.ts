@@ -8,8 +8,9 @@ export const getAudios = async (server: FastifyInstance, request: FastifyRequest
 };
 
 export const addAudio = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const audio = await server.orm.getRepository(Audio).save(request.body as DeepPartial<Audio>);
-  reply.send(audio);
+  const audio: Audio = server.orm.getRepository(Audio).create(request.body as DeepPartial<Audio>);
+  const savedAudio = await server.orm.getRepository(Audio).save(audio);
+  reply.send(savedAudio);
 };
 
 export const updateAudio = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

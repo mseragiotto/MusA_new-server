@@ -8,8 +8,9 @@ export const getFloors = async (server: FastifyInstance, request: FastifyRequest
 };
 
 export const addFloor = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const floor = await server.orm.getRepository(Floor).save(request.body as DeepPartial<Floor>);
-  reply.send(floor);
+  const floor: Floor = server.orm.getRepository(Floor).create(request.body as DeepPartial<Floor>);
+  const savedFloor = await server.orm.getRepository(Floor).save(floor);
+  reply.send(savedFloor);
 };
 
 export const updateFloor = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

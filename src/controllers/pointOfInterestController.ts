@@ -8,8 +8,9 @@ export const getPointsOfInterest = async (server: FastifyInstance, request: Fast
 };
 
 export const addPointOfInterest = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const pointOfInterest = await server.orm.getRepository(PointsOfInterest).save(request.body as DeepPartial<PointsOfInterest>);
-  reply.send(pointOfInterest);
+  const pointOfInterest: PointsOfInterest = server.orm.getRepository(PointsOfInterest).create(request.body as DeepPartial<PointsOfInterest>);
+  const savedPointOfInterest = await server.orm.getRepository(PointsOfInterest).save(pointOfInterest);
+  reply.send(savedPointOfInterest);
 };
 
 export const updatePointOfInterest = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

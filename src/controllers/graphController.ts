@@ -8,8 +8,9 @@ export const getGraphs = async (server: FastifyInstance, request: FastifyRequest
 };
 
 export const addGraph = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const graph = await server.orm.getRepository(Graph).save(request.body as DeepPartial<Graph>);
-  reply.send(graph);
+  const graph: Graph = server.orm.getRepository(Graph).create(request.body as DeepPartial<Graph>);
+  const savedGraph = await server.orm.getRepository(Graph).save(graph);
+  reply.send(savedGraph);
 };
 
 export const updateGraph = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {

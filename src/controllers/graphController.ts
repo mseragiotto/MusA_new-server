@@ -4,6 +4,9 @@ import { DeepPartial } from 'typeorm';
 
 export const getGraphs = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const graphs = await server.orm.getRepository(Graph).find();
+  if (!graphs) {
+    return reply.status(404).send({ message: 'No Graphs found' });
+  }
   reply.send(graphs);
 };
 
@@ -19,13 +22,12 @@ export const updateGraph = async (server: FastifyInstance, request: FastifyReque
   const graph = await graphRepository.findOne({ where: { id } });
 
   if (!graph) {
-    reply.status(404).send({ message: 'Graph not found' });
-    return;
-  } else {
-    graphRepository.merge(graph, request.body as DeepPartial<Graph>);
-    const updatedGraph = await graphRepository.save(graph);
-    reply.send(updatedGraph);
+    return reply.status(404).send({ message: 'Graph not found' });
   }
+   
+  graphRepository.merge(graph, request.body as DeepPartial<Graph>);
+  const updatedGraph = await graphRepository.save(graph);
+  reply.send(updatedGraph);
 };
 
 export const deleteGraph = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
@@ -42,5 +44,10 @@ export const deleteGraph = async (server: FastifyInstance, request: FastifyReque
 export const getGraph = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const { id } = request.params as { id: number };
   const graph = await server.orm.getRepository(Graph).findOne({ where: { id } });
-  reply.send(graph);
+
+  if (graph) {
+    reply.send(graph);
+  } else {
+    reply.status(404).send({ message: 'Graph not found' });
+  }
 };

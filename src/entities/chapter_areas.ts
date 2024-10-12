@@ -1,5 +1,5 @@
 // Purpose: Contains the structure of the chapter_areas table in the database.
-import { Entity, PrimaryGeneratedColumn, ManyToMany, ManyToOne } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne } from 'typeorm';
 import { Chapter } from './chapters';
 import { Macroarea } from './macroareas';
 
@@ -8,7 +8,7 @@ export class ChapterArea {
   @PrimaryGeneratedColumn()
     id: number | undefined;
 
-  @ManyToMany(() => Chapter)
+  @ManyToOne(() => Chapter)
     chapter: Chapter | undefined;
 
   @ManyToOne(() => Macroarea)

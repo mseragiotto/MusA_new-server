@@ -4,6 +4,9 @@ import { DeepPartial } from 'typeorm';
 
 export const getRoles = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const roles = await server.orm.getRepository(Role).find();
+  if (!roles) {
+    return reply.status(404).send({ message: 'No Roles found' });
+  }
   reply.send(roles);
 };
 
@@ -42,5 +45,8 @@ export const deleteRole = async (server: FastifyInstance, request: FastifyReques
 export const getRole = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const { level } = request.params as { level: number };
   const role = await server.orm.getRepository(Role).findOne({ where: { level } });
+  if (!role) {
+    return reply.status(404).send({ message: 'Role not found' });
+  }
   reply.send(role);
 };

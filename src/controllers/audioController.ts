@@ -4,6 +4,9 @@ import { DeepPartial } from 'typeorm';
 
 export const getAudios = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const audios = await server.orm.getRepository(Audio).find();
+  if (!audios) {
+    return reply.status(404).send({ message: 'No Audios found' });
+  }
   reply.send(audios);
 };
 
@@ -19,8 +22,7 @@ export const updateAudio = async (server: FastifyInstance, request: FastifyReque
   const audio = await audioRepository.findOne({ where: { id } });
 
   if (!audio) {
-    reply.status(404).send({ message: 'Audio not found' });
-    return;
+    return reply.status(404).send({ message: 'Audio not found' });
   } else {
     audioRepository.merge(audio, request.body as DeepPartial<Audio>);
     const updatedAudio = await audioRepository.save(audio);
@@ -42,7 +44,11 @@ export const deleteAudio = async (server: FastifyInstance, request: FastifyReque
 export const getAudio = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const { id } = request.params as { id: number };
   const audio = await server.orm.getRepository(Audio).findOne({ where: { id } });
-  reply.send(audio);
+  if (audio) {
+    reply.send(audio);
+  } else {
+    reply.status(404).send({ message: 'Audio not found' });
+  }
 };
 
 

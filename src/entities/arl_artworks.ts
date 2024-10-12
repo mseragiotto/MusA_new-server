@@ -6,18 +6,18 @@ import { ArlFloor } from './arl_floors';
 @Entity()
 export class ArlArtwork {
   @PrimaryColumn()
-    artwork: number | undefined;
+    artworkId: number | undefined; 
 
   @PrimaryColumn()
-    arl_floor: number | undefined;
+    arl_floorId: number | undefined; 
 
   @ManyToOne(() => Artwork, artwork => artwork.id)
-  @JoinColumn({ name: 'artwork' })
-    artwork_id: Artwork | undefined;
+  @JoinColumn({ name: 'artworkId' }) 
+    artwork: Artwork | undefined;
 
   @ManyToOne(() => ArlFloor, arl_floor => arl_floor.id)
-  @JoinColumn({ name: 'arl_floor' })
-    arl_floor_id: ArlFloor | undefined;
+  @JoinColumn({ name: 'arl_floorId' }) 
+    arl_floor: ArlFloor | undefined;
 
   @Column({ type: 'double precision', nullable: true })
     latitude: number | undefined;

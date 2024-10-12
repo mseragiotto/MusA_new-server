@@ -29,4 +29,8 @@ export class User {
     }
     return bcrypt.compare(rawPassword, this.password);
   }
+
+  // Method to extract username from the JWT
+  
+
 }

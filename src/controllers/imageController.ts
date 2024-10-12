@@ -4,6 +4,9 @@ import { DeepPartial } from 'typeorm';
 
 export const getImages = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const images = await server.orm.getRepository(Image).find();
+  if (!images) {
+    return reply.status(404).send({ message: 'No Images found' });
+  }
   reply.send(images);
 };
 
@@ -19,13 +22,12 @@ export const updateImage = async (server: FastifyInstance, request: FastifyReque
   const image = await imageRepository.findOne({ where: { id } });
 
   if (!image) {
-    reply.status(404).send({ message: 'Image not found' });
-    return;
-  } else {
-    imageRepository.merge(image, request.body as DeepPartial<Image>);
-    const updatedImage = await imageRepository.save(image);
-    reply.send(updatedImage);
+    return reply.status(404).send({ message: 'Image not found' });
   }
+
+  imageRepository.merge(image, request.body as DeepPartial<Image>);
+  const updatedImage = await imageRepository.save(image);
+  reply.send(updatedImage);
 };
 
 export const deleteImage = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
@@ -42,5 +44,9 @@ export const deleteImage = async (server: FastifyInstance, request: FastifyReque
 export const getImage = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const { id } = request.params as { id: number };
   const image = await server.orm.getRepository(Image).findOne({ where: { id } });
-  reply.send(image);
+  if (image) {
+    reply.send(image);
+  } else {
+    reply.status(404).send({ message: 'Image not found' });
+  }
 };

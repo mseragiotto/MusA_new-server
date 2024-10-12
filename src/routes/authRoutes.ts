@@ -1,5 +1,5 @@
 import { FastifyPluginAsync, FastifyRequest, FastifyReply } from 'fastify';
-import { register, login } from '../controllers/authController';
+import { register, login, changePassword } from '../controllers/authController';
 
 const authRoutes: FastifyPluginAsync = async (server) => {
   server.post('/register', async (request: FastifyRequest, reply: FastifyReply) => {
@@ -7,6 +7,9 @@ const authRoutes: FastifyPluginAsync = async (server) => {
   });
   server.post('/login', async (request: FastifyRequest, reply: FastifyReply) => {
     await login(server, request, reply);
+  });
+  server.post('/change-password', { preValidation: [server.authenticate] }, async (request: FastifyRequest, reply: FastifyReply) => {
+    await changePassword(server, request, reply);
   });
 };
 

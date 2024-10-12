@@ -1,20 +1,35 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify';
 import { ArlFloor } from '../entities/arl_floors';
-import { DeepPartial } from 'typeorm';
+import { Floor } from '../entities/floors';
+import { Museum } from '../entities/museums';
 
 export const getArlFloors = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const arlFloors = await server.orm.getRepository(ArlFloor).find();
+  const arlFloors = await server.orm.getRepository(ArlFloor).find({ relations: ['museum', 'floor'] });
+  if (!arlFloors) {
+    return reply.status(404).send({ message: 'No ArlFloors found' });
+  }
   reply.send(arlFloors);
 };
 
 export const addArlFloor = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const arlFloor: ArlFloor = server.orm.getRepository(ArlFloor).create(request.body as DeepPartial<ArlFloor>);
+  const { museumId, floorId, name } = request.body as { museumId: number; floorId: number; name: string };
+
+  const museum = await server.orm.getRepository(Museum).findOne({ where: { id: museumId } });
+  const floor = await server.orm.getRepository(Floor).findOne({ where: { id: floorId } });
+
+  if (!museum || !floor) {
+    return reply.status(404).send({ message: 'Museum or Floor not found' });
+  }
+
+  const arlFloor: ArlFloor = server.orm.getRepository(ArlFloor).create({ museum, floor, name });
   const savedArlFloor = await server.orm.getRepository(ArlFloor).save(arlFloor);
   reply.send(savedArlFloor);
 };
 
 export const updateArlFloor = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const { id } = request.params as { id: number };
+  const { museumId, floorId, name } = request.body as { museumId: number; floorId: number; name: string };
+
   const arlFloorRepository = server.orm.getRepository(ArlFloor);
   const arlFloor = await arlFloorRepository.findOne({ where: { id } });
 
@@ -22,7 +37,16 @@ export const updateArlFloor = async (server: FastifyInstance, request: FastifyRe
     reply.status(404).send({ message: 'ArlFloor not found' });
     return;
   } else {
-    arlFloorRepository.merge(arlFloor, request.body as DeepPartial<ArlFloor>);
+    if (museumId && floorId) {
+      const museum = await server.orm.getRepository(Museum).findOne({ where: { id: museumId } });
+      const floor = await server.orm.getRepository(Floor).findOne({ where: { id: floorId } });
+      if (!museum || !floor) {
+        return reply.status(404).send({ message: 'Museum or Floor not found' });
+      }
+      arlFloor.museum = museum;
+      arlFloor.floor = floor;
+    }
+    arlFloorRepository.merge(arlFloor, { name });
     const updatedArlFloor = await arlFloorRepository.save(arlFloor);
     reply.send(updatedArlFloor);
   }
@@ -41,7 +65,12 @@ export const deleteArlFloor = async (server: FastifyInstance, request: FastifyRe
 
 export const getArlFloor = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const { id } = request.params as { id: number };
-  const arlFloor = await server.orm.getRepository(ArlFloor).findOne({ where: { id } });
-  reply.send(arlFloor);
+  const arlFloor = await server.orm.getRepository(ArlFloor).findOne({ where: { id }, relations: ['museum', 'floor'] });
+  
+  if (arlFloor) {
+    reply.send(arlFloor);
+  } else {
+    reply.status(404).send({ message: 'ArlFloor not found' });
+  }
 };
 

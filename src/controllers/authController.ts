@@ -12,6 +12,13 @@ export const register = async (server: FastifyInstance, request: FastifyRequest,
     return reply.status(400).send({ message: 'Username already taken' });
   }
 
+  // Check if the role exists
+  const roleRepository = server.orm.getRepository(Role);
+  const existingRole = await roleRepository.findOne({ where: { level: role.level } });
+  if (!existingRole) {
+    return reply.status(400).send({ message: 'User role does not exist' });
+  }
+
   // New user creation
   const newUser = new User();
   newUser.username = username;
@@ -19,7 +26,7 @@ export const register = async (server: FastifyInstance, request: FastifyRequest,
   await newUser.setPassword(password);
 
   const savedUser = await userRepository.save(newUser);
-  reply.send({ id: savedUser.id, username: savedUser.username });
+  reply.send({ id: savedUser.id, username: savedUser.username, role: savedUser.role });
 };
 
 export const login = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
@@ -41,4 +48,39 @@ export const login = async (server: FastifyInstance, request: FastifyRequest, re
   // JWT token generation
   const token = await reply.jwtSign({ id: user.id, username: user.username, role: user.role }, { expiresIn: '1h' });
   reply.send({ token });
+};
+
+// Method to change the password of an user (requires the user to be logged in)
+export const changePassword = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
+  const userRepository = server.orm.getRepository(User);
+  const { password, newPassword } = request.body as { password: string, newPassword: string };
+
+  // Get the token from the headers
+  const authHeader = request.headers.authorization;
+  if (!authHeader) {
+    return reply.status(401).send({ message: 'Authorization header is missing' });
+  }
+  const token = authHeader.split(' ')[1];
+
+  // Decode the JWT token to get the username
+  const decodedToken = server.jwt.decode<{ username: string }>(token);
+  if (!decodedToken) {
+    return reply.status(401).send({ message: 'Invalid token' });
+  }
+
+  const user = await userRepository.findOne({ where: { username: decodedToken.username } });
+  if (!user) {
+    return reply.status(401).send({ message: 'User not found' });
+  }
+
+  // Check if the password is correct
+  const isValidPassword = await user.checkPassword(password);
+  if (!isValidPassword) {
+    return reply.status(401).send({ message: 'Invalid password' });
+  }
+
+  // Update the password
+  await user.setPassword(newPassword);
+  await userRepository.save(user);
+  reply.send({ message: 'Password updated successfully' });
 };

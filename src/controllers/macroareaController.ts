@@ -4,6 +4,9 @@ import { DeepPartial } from 'typeorm';
 
 export const getMacroareas = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const macroareas = await server.orm.getRepository(Macroarea).find();
+  if (!macroareas) {
+    return reply.status(404).send({ message: 'No Macroareas found' });
+  }
   reply.send(macroareas);
 };
 
@@ -19,13 +22,12 @@ export const updateMacroarea = async (server: FastifyInstance, request: FastifyR
   const macroarea = await macroareaRepository.findOne({ where: { id } });
 
   if (!macroarea) {
-    reply.status(404).send({ message: 'Macroarea not found' });
-    return;
-  } else {
-    macroareaRepository.merge(macroarea, request.body as DeepPartial<Macroarea>);
-    const updatedMacroarea = await macroareaRepository.save(macroarea);
-    reply.send(updatedMacroarea);
+    return reply.status(404).send({ message: 'Macroarea not found' });
   }
+
+  macroareaRepository.merge(macroarea, request.body as DeepPartial<Macroarea>);
+  const updatedMacroarea = await macroareaRepository.save(macroarea);
+  reply.send(updatedMacroarea);
 };
 
 export const deleteMacroarea = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
@@ -42,5 +44,10 @@ export const deleteMacroarea = async (server: FastifyInstance, request: FastifyR
 export const getMacroarea = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const { id } = request.params as { id: number };
   const macroarea = await server.orm.getRepository(Macroarea).findOne({ where: { id } });
-  reply.send(macroarea);
+
+  if (macroarea) {
+    reply.send(macroarea);
+  } else {
+    reply.status(404).send({ message: 'Macroarea not found' });
+  }
 };

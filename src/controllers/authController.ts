@@ -4,17 +4,17 @@ import { Role } from '../entities/roles';
 
 export const register = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const userRepository = server.orm.getRepository(User);
-  const { username, password, role } = request.body as { username: string, password: string, role: Role };
+  const { username, password, role } = request.body as { username: string, password: string, role: number };
 
   // Verify if the user already exists
-  const existingUser = await userRepository.findOne({ where: { username } });
+  const existingUser = await userRepository.findOne({ where: { username }, relations: ['role'] });
   if (existingUser) {
     return reply.status(400).send({ message: 'Username already taken' });
   }
 
   // Check if the role exists
   const roleRepository = server.orm.getRepository(Role);
-  const existingRole = await roleRepository.findOne({ where: { level: role.level } });
+  const existingRole = await roleRepository.findOne({ where: { level: role } });
   if (!existingRole) {
     return reply.status(400).send({ message: 'User role does not exist' });
   }
@@ -22,11 +22,16 @@ export const register = async (server: FastifyInstance, request: FastifyRequest,
   // New user creation
   const newUser = new User();
   newUser.username = username;
-  newUser.role = role;
+  const roleObj = await roleRepository.findOne({ where: { level: role } });
+  if (roleObj) {
+    newUser.role = roleObj;
+  } else {
+    return reply.status(400).send({ message: 'User role does not exist' });
+  }
   await newUser.setPassword(password);
 
   const savedUser = await userRepository.save(newUser);
-  reply.send({ id: savedUser.id, username: savedUser.username, role: savedUser.role });
+  reply.send({ id: savedUser.id, username: savedUser.username, role: savedUser.role?.description });
 };
 
 export const login = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
@@ -76,7 +81,7 @@ export const changePassword = async (server: FastifyInstance, request: FastifyRe
   // Check if the password is correct
   const isValidPassword = await user.checkPassword(password);
   if (!isValidPassword) {
-    return reply.status(401).send({ message: 'Invalid password' });
+    return reply.status(401).send({ message: 'Invalid existing password' });
   }
 
   // Update the password

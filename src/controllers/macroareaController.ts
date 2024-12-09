@@ -1,6 +1,6 @@
 import { FastifyRequest, FastifyReply, FastifyInstance } from 'fastify';
 import { Macroarea } from '../entities/macroareas';
-import { DeepPartial } from 'typeorm';
+import { Artwork } from '../entities/artworks';
 
 export const getMacroareas = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const macroareas = await server.orm.getRepository(Macroarea).find();
@@ -11,21 +11,37 @@ export const getMacroareas = async (server: FastifyInstance, request: FastifyReq
 };
 
 export const addMacroarea = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
-  const macroarea: Macroarea = server.orm.getRepository(Macroarea).create(request.body as DeepPartial<Macroarea>);
+  const { artworkId, title, colour } = request.body as { artworkId: number, title: string; colour: string };
+  const artwork = await server.orm.getRepository(Artwork).findOne({ where: { id: artworkId } });
+
+  if (!artwork) {
+    return reply.status(404).send({ message: 'Artwork not found' });
+  }
+  const macroarea: Macroarea = server.orm.getRepository(Macroarea).create({ artwork, title, colour });
   const savedMacroarea = await server.orm.getRepository(Macroarea).save(macroarea);
   reply.send(savedMacroarea);
 };
 
 export const updateMacroarea = async (server: FastifyInstance, request: FastifyRequest, reply: FastifyReply) => {
   const { id } = request.params as { id: number };
+  const { artworkId, title, colour } = request.body as { artworkId: number, title: string; colour: string };
+
   const macroareaRepository = server.orm.getRepository(Macroarea);
   const macroarea = await macroareaRepository.findOne({ where: { id } });
 
   if (!macroarea) {
     return reply.status(404).send({ message: 'Macroarea not found' });
+  } else {
+    if (artworkId) {
+      const artwork = await server.orm.getRepository(Artwork).findOne({ where: { id: artworkId } });
+      if (!artwork) {
+        return reply.status(404).send({ message: 'provided Artwork id not found' });
+      }
+      macroarea.artwork = artwork;
+    }
   }
 
-  macroareaRepository.merge(macroarea, request.body as DeepPartial<Macroarea>);
+  macroareaRepository.merge(macroarea, { title, colour });
   const updatedMacroarea = await macroareaRepository.save(macroarea);
   reply.send(updatedMacroarea);
 };

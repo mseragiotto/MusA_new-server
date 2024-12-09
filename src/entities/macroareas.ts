@@ -1,10 +1,13 @@
 // Purpose: Contains the structure of the Macroarea entity.
-import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate } from 'typeorm';
-
+import { Entity, PrimaryGeneratedColumn, Column, BeforeInsert, BeforeUpdate, ManyToOne } from 'typeorm';
+import { Artwork } from './artworks';
 @Entity()
 export class Macroarea {
   @PrimaryGeneratedColumn()
     id: number | undefined;
+
+  @ManyToOne(() => Artwork)
+    artwork: Artwork | undefined;
 
   @Column({ type: 'varchar', nullable: true })
     title: string | undefined;

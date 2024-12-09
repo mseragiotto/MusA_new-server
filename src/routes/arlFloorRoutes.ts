@@ -9,7 +9,7 @@ const arlFloorRoutes: FastifyPluginAsync = async (server) => {
         tags: ['ArlFloor'],
         summary: 'Get all arl floors',
         operationId: 'getArlFloors',
-        security: [{ 'bearerAuth': [] }],
+        security: [{ bearerAuth: [] }],
         response: {
           200: {
             description: 'Successful response',
@@ -44,7 +44,7 @@ const arlFloorRoutes: FastifyPluginAsync = async (server) => {
         tags: ['ArlFloor'],
         summary: 'Get arl floor',
         operationId: 'getArlFloor',
-        security: [{ 'bearerAuth': [] }],
+        security: [{ bearerAuth: [] }],
         params: {
           type: 'object',
           properties: {
@@ -83,14 +83,19 @@ const arlFloorRoutes: FastifyPluginAsync = async (server) => {
         tags: ['ArlFloor'],
         summary: 'Add arl floor',
         operationId: 'addArlFloor',
-        security: [{ 'bearerAuth': [] }],
+        security: [{ bearerAuth: [] }],
         body: {
           type: 'object',
           properties: {
-            museumId: { type: 'number' },
-            floorId: { type: 'number' },
+            museum: { type: 'number' },
+            floor: { type: 'number' },
             name: { type: 'string' }
-          }
+          },
+          examples: [{
+            museum: 18,
+            floor: 12,
+            name: 'Piano Terra'
+          }]
         },
         response: {
           200: {
@@ -123,7 +128,7 @@ const arlFloorRoutes: FastifyPluginAsync = async (server) => {
         tags: ['ArlFloor'],
         summary: 'Update arl floor',
         operationId: 'updateArlFloor',
-        security: [{ 'bearerAuth': [] }],
+        security: [{ bearerAuth: [] }],
         params: {
           type: 'object',
           properties: {
@@ -136,7 +141,12 @@ const arlFloorRoutes: FastifyPluginAsync = async (server) => {
             museumId: { type: 'number' },
             floorId: { type: 'number' },
             name: { type: 'string' }
-          }
+          },
+          examples: [{
+            museum: 18,
+            floor: 12,
+            name: 'Piano zero'
+          }]
         },
         response: {
           200: {
@@ -169,7 +179,7 @@ const arlFloorRoutes: FastifyPluginAsync = async (server) => {
         tags: ['ArlFloor'],
         summary: 'Delete arl floor',
         operationId: 'deleteArlFloor',
-        security: [{ 'bearerAuth': [] }],
+        security: [{ bearerAuth: [] }],
         params: {
           type: 'object',
           properties: {

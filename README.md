@@ -34,6 +34,6 @@ The complete API Documentation is available at these URLs:
 
 | URL                     | Description                                |
 | ----------------------- | ------------------------------------------ |
-| `'{{environment}}/documentation/json'` | The JSON object representing the API       |
-| `'{{environment}}/documentation/yaml'` | The YAML object representing the API       |
-| `'{{environment}}/documentation/'`     | The swagger UI                             |
+| `{{environment}}/documentation/json` | The JSON object representing the API       |
+| `{{environment}}/documentation/yaml` | The YAML object representing the API       |
+| `{{environment}}/documentation/`     | The swagger UI                             |

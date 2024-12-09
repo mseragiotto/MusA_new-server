@@ -8,7 +8,7 @@ This repository contains the NodeJS server for the MusA Management webapp. The s
   - [Table of Contents](#table-of-contents)
   - [Installation](#installation)
   - [Usage](#usage)
-  - [API Endpoints](#api-endpoints)
+  - [API Documentation](#api-documentation)
 
 ## Installation
 
@@ -28,11 +28,12 @@ npm run start
 
 The server will start on the default port 3000. You can change the port by setting the PORT environment variable.
 
-## API Endpoints
-Here are some of the main API endpoints provided by this server:
+## API Documentation
 
-- `GET /api/users` - Retrieve a list of users
-- `POST /api/users` - Create a new user
-- `GET /api/users/:id` - Retrieve a specific user by ID
-- `PUT /api/users/:id` - Update a specific user by ID
-- `DELETE /api/users/:id` - Delete a specific user by ID
+The complete API Documentation is available at these URLs:
+
+| URL                     | Description                                |
+| ----------------------- | ------------------------------------------ |
+| `'{{environment}}/documentation/json'` | The JSON object representing the API       |
+| `'{{environment}}/documentation/yaml'` | The YAML object representing the API       |
+| `'{{environment}}/documentation/'`     | The swagger UI                             |

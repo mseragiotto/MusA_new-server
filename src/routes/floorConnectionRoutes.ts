@@ -6,7 +6,7 @@ const floorConnectionRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['FloorConnection'],
+        tags: ['FloorsConnection'],
         summary: 'Get all Floors Connections',
         operationId: 'getFloorsConnections',
         security: [{ bearerAuth: [] }],
@@ -35,7 +35,7 @@ const floorConnectionRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['FloorConnection'],
+        tags: ['FloorsConnection'],
         summary: 'Get Floors Connection by ID',
         operationId: 'getFloorsConnection',
         security: [{ bearerAuth: [] }],
@@ -68,7 +68,7 @@ const floorConnectionRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['FloorConnection'],
+        tags: ['FloorsConnection'],
         summary: 'Add a new Floors Connection',
         operationId: 'addFloorsConnection',
         security: [{ bearerAuth: [] }],
@@ -135,7 +135,7 @@ const floorConnectionRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['FloorConnection'],
+        tags: ['FloorsConnection'],
         summary: 'Update Floors Connection',
         operationId: 'updateFloorsConnection',
         security: [{ bearerAuth: [] }],
@@ -199,7 +199,7 @@ const floorConnectionRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['FloorConnection'],
+        tags: ['FloorsConnection'],
         summary: 'Delete Floors Connection',
         operationId: 'deleteFloorsConnection',
         security: [{ bearerAuth: [] }],

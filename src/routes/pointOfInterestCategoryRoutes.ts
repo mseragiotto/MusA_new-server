@@ -6,7 +6,7 @@ const pointOfInterestCategoryRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['PointOfInterestCategory'],
+        tags: ['PointOfInterestCategories'],
         summary: 'Get all Point of Interest Categories',
         operationId: 'getPointOfInterestCategories',
         security: [{ bearerAuth: [] }],
@@ -35,7 +35,7 @@ const pointOfInterestCategoryRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['PointOfInterestCategory'],
+        tags: ['PointOfInterestCategories'],
         summary: 'Get Point of Interest Category by ID',
         operationId: 'getPointOfInterestCategory',
         security: [{ bearerAuth: [] }],
@@ -68,7 +68,7 @@ const pointOfInterestCategoryRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['PointOfInterestCategory'],
+        tags: ['PointOfInterestCategories'],
         summary: 'Add a new Point of Interest Category',
         operationId: 'addPointOfInterestCategory',
         security: [{ bearerAuth: [] }],
@@ -117,7 +117,7 @@ const pointOfInterestCategoryRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['PointOfInterestCategory'],
+        tags: ['PointOfInterestCategories'],
         summary: 'Update Point of Interest Category',
         operationId: 'updatePointOfInterestCategory',
         security: [{ bearerAuth: [] }],
@@ -174,7 +174,7 @@ const pointOfInterestCategoryRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['PointOfInterestCategory'],
+        tags: ['PointOfInterestCategories'],
         summary: 'Delete Point of Interest Category',
         operationId: 'deletePointOfInterestCategory',
         security: [{ bearerAuth: [] }],

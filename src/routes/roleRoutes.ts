@@ -6,7 +6,7 @@ const roleRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['Role'],
+        tags: ['Roles'],
         summary: 'Get all Roles',
         operationId: 'getRoles',
         security: [{ bearerAuth: [] }],
@@ -35,7 +35,7 @@ const roleRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['Role'],
+        tags: ['Roles'],
         summary: 'Get Role by Level',
         operationId: 'getRole',
         security: [{ bearerAuth: [] }],
@@ -68,7 +68,7 @@ const roleRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['Role'],
+        tags: ['Roles'],
         summary: 'Add a new Role',
         operationId: 'addRole',
         security: [{ bearerAuth: [] }],
@@ -109,7 +109,7 @@ const roleRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['Role'],
+        tags: ['Roles'],
         summary: 'Update Role',
         operationId: 'updateRole',
         security: [{ bearerAuth: [] }],
@@ -154,7 +154,7 @@ const roleRoutes: FastifyPluginAsync = async (server) => {
     {
       preValidation: [server.authenticate],
       schema: {
-        tags: ['Role'],
+        tags: ['Roles'],
         summary: 'Delete Role',
         operationId: 'deleteRole',
         security: [{ bearerAuth: [] }],

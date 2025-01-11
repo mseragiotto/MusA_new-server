@@ -7,7 +7,7 @@ export class Image {
     id: number | undefined;
 
   @Column({ type: 'varchar' })
-    base64: string | undefined;
+    url: string | undefined;
 
   @Column({ type: 'timestamp', nullable: true })
     creation_date: Date | undefined;

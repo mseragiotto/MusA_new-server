@@ -4,33 +4,41 @@ import fastifyJWT from '@fastify/jwt';
 import plugin from 'typeorm-fastify-plugin';
 import fastifySwagger from '@fastify/swagger';
 import fastifySwaggerUi from '@fastify/swagger-ui';
+import fastifyMultipart from '@fastify/multipart';
+import fastifyCors from '@fastify/cors';
 import routes from './routes';
 import dotenv from 'dotenv';
 import schema from './schema';
 
 dotenv.config();
 
-/*const config:any = {
-    "type": 'postgres',
-    "host": process.env.DB_HOST,
-    "port": process.env.DB_PORT,
-    "username": process.env.DB_USER,
-    "password": process.env.DB_PASS,
-    "database": process.env.DB_NAME,
-    "synchronize": true,
-    "logging": false,
-    "entities": [           */
-//       "src/entities/**/*.ts"
-//    ],
-//    "migrations": [
-//       "src/migration/**/*.ts"
-//    ],
-//    "subscribers": [
-//      "src/subscriber/**/*.ts"
-//    ]
-// }
-
 const server = Fastify({ logger: true });
+
+// Register fastify-multipart plugin
+server.register(fastifyMultipart, {
+  //attachFieldsToBody: true,   // attach multipart fields to request.body
+  limits: {
+    fileSize: 10_000_000,     // 10MB
+  },
+});
+
+// Register fastify-cors plugin
+/*
+in case of strict rules, use this configuration:
+origin: (origin, callback) => {
+    const allowedOrigins = ['http://localhost:3000', 'https://myapp.com'];
+    if (!origin || allowedOrigins.includes(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+*/
+server.register(fastifyCors, {
+  origin: '*', // Indica l'origine consentita
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specifica i metodi consentiti
+  credentials: true, // Permette l'invio di cookie e credenziali
+});
 
 server.decorate('authenticate', async (request: { jwtVerify: () => Promise<void>; }, reply: { send: (arg0: unknown) => void; }) => {
   try {

@@ -17,6 +17,7 @@ import pointOfInterestCategoryRoutes from './pointOfInterestCategoryRoutes';
 import pointOfInterestRoutes from './pointOfInterestRoutes';
 import rolemRoutes from './roleRoutes';
 import routeRoutes from './routeRoutes';
+import uploadRoutes from './uploadRoutes';
 import userRoutes from './userRoutes';
 import routeArtworkRoutes from './routeArtworkRoutes';
 import databaseRoutes from './databaseRoutes';
@@ -43,6 +44,7 @@ const routes: FastifyPluginAsync = async (server) => {
   server.register(rolemRoutes, { prefix: '/roles' });
   server.register(routeArtworkRoutes, { prefix: '/route-artworks' });
   server.register(routeRoutes, { prefix: '/routes' });
+  server.register(uploadRoutes, { prefix: '/upload' });
   server.register(userRoutes, { prefix: '/users' });
   server.register(databaseRoutes, { prefix: '/database' });
   server.register(authRoutes, { prefix: '/auth' });

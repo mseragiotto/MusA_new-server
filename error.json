@@ -1,15 +1,30 @@
 {
-    "level": 50,
-    "time": 1730066682432,
-    "pid": 87382,
+    "level": 30,
+    "time": 1735887424737,
+    "pid": 43760,
     "hostname": "LPHYJL7GM6C3",
-    "err": {
-        "type": "FastifyError",
-        "message": "Failed building the validation schema for GET: /arl-artworks/:artwork/:arl_floor, due to error schema is invalid: data/properties/type must be object,boolean",
-        "stack": "FastifyError: Failed building the validation schema for GET: /arl-artworks/:artwork/:arl_floor, due to error schema is invalid: data/properties/type must be object,boolean\n    at Boot.<anonymous> (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/route.js:391:21)\n    at Object.onceWrapper (node:events:633:28)\n    at Boot.emit (node:events:531:35)\n    at /opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/avvio/boot.js:102:12\n    at /opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/avvio/boot.js:437:7\n    at done (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/avvio/lib/plugin.js:228:5)\n    at check (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/avvio/lib/plugin.js:252:9)\n    at node:internal/process/task_queues:140:7\n    at AsyncResource.runInAsyncScope (node:async_hooks:206:9)\n    at AsyncResource.runMicrotask (node:internal/process/task_queues:137:8)",
-        "code": "FST_ERR_SCH_VALIDATION_BUILD",
-        "name": "FastifyError",
-        "statusCode": 500
+    "reqId": "req-1",
+    "res": {
+        "statusCode": 400
     },
-    "msg": "Failed building the validation schema for GET: /arl-artworks/:artwork/:arl_floor, due to error schema is invalid: data/properties/type must be object,boolean"
+    "err": {
+        "type": "Error",
+        "message": "body must be object",
+        "stack": "Error: body must be object\n    at defaultSchemaErrorFormatter (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/context.js:93:10)\n    at wrapValidationError (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/validation.js:249:17)\n    at validate (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/validation.js:167:16)\n    at preValidationCallback (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/handleRequest.js:89:25)\n    at next (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/hooks.js:233:9)\n    at handleResolve (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/hooks.js:250:7)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)",
+        "statusCode": 400,
+        "code": "FST_ERR_VALIDATION",
+        "validation": [
+            {
+                "instancePath": "",
+                "schemaPath": "#/type",
+                "keyword": "type",
+                "params": {
+                    "type": "object"
+                },
+                "message": "must be object"
+            }
+        ],
+        "validationContext": "body"
+    },
+    "msg": "body must be object"
 }

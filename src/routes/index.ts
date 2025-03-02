@@ -19,6 +19,7 @@ import rolemRoutes from './roleRoutes';
 import routeRoutes from './routeRoutes';
 import uploadRoutes from './uploadRoutes';
 import userRoutes from './userRoutes';
+import userVisibilityRoutes from './userVisibilityRoutes';
 import routeArtworkRoutes from './routeArtworkRoutes';
 import databaseRoutes from './databaseRoutes';
 import authRoutes from './authRoutes';
@@ -49,6 +50,7 @@ const routes: FastifyPluginAsync = async (server) => {
   server.register(databaseRoutes, { prefix: '/database' });
   server.register(authRoutes, { prefix: '/auth' });
   server.register(healthRoute, { prefix: '/health' });
+  server.register(userVisibilityRoutes, { prefix: '/user-visibility' });
 };
 
 export default routes;

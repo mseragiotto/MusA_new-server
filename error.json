@@ -1,7 +1,7 @@
 {
     "level": 30,
-    "time": 1735887424737,
-    "pid": 43760,
+    "time": 1739232137300,
+    "pid": 1488,
     "hostname": "LPHYJL7GM6C3",
     "reqId": "req-1",
     "res": {
@@ -9,22 +9,22 @@
     },
     "err": {
         "type": "Error",
-        "message": "body must be object",
-        "stack": "Error: body must be object\n    at defaultSchemaErrorFormatter (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/context.js:93:10)\n    at wrapValidationError (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/validation.js:249:17)\n    at validate (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/validation.js:167:16)\n    at preValidationCallback (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/handleRequest.js:89:25)\n    at next (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/hooks.js:233:9)\n    at handleResolve (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/hooks.js:250:7)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)",
+        "message": "body/file must be string",
+        "stack": "Error: body/file must be string\n    at defaultSchemaErrorFormatter (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/context.js:93:10)\n    at wrapValidationError (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/validation.js:249:17)\n    at validate (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/validation.js:167:16)\n    at preValidationCallback (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/handleRequest.js:89:25)\n    at next (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/hooks.js:233:9)\n    at handleResolve (/opt/homebrew/etc/nginx/servers/Tesi-projects/MusA_new-server/node_modules/fastify/lib/hooks.js:250:7)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)",
         "statusCode": 400,
         "code": "FST_ERR_VALIDATION",
         "validation": [
             {
-                "instancePath": "",
-                "schemaPath": "#/type",
+                "instancePath": "/file",
+                "schemaPath": "#/properties/file/type",
                 "keyword": "type",
                 "params": {
-                    "type": "object"
+                    "type": "string"
                 },
-                "message": "must be object"
+                "message": "must be string"
             }
         ],
         "validationContext": "body"
     },
-    "msg": "body must be object"
+    "msg": "body/file must be string"
 }

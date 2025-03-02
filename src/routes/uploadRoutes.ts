@@ -10,13 +10,18 @@ const uploadRoutes: FastifyPluginAsync = async (server) => {
         summary: 'Upload an image',
         operationId: 'uploadImage',
         security: [{ bearerAuth: [] }],
-        //consumes: ['multipart/form-data'],
-        /*body: {
+        consumes: ['multipart/form-data'],
+        body: {
           type: 'object',
           properties: {
-            file: { type: 'string', format: 'binary' },
+            file: { 
+              type: 'object', 
+              //format: 'binary'
+              additionalProperties: true,
+            },
           },
-        },*/
+          required: ['file'],
+        },
         response: {
           200: {
             description: 'Image uploaded successfully',

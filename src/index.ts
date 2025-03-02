@@ -16,7 +16,7 @@ const server = Fastify({ logger: true });
 
 // Register fastify-multipart plugin
 server.register(fastifyMultipart, {
-  //attachFieldsToBody: true,   // attach multipart fields to request.body
+  attachFieldsToBody: true,   // attach multipart fields to request.body
   limits: {
     fileSize: 10_000_000,     // 10MB
   },
@@ -35,9 +35,9 @@ origin: (origin, callback) => {
   },
 */
 server.register(fastifyCors, {
-  origin: '*', // Indica l'origine consentita
-  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specifica i metodi consentiti
-  credentials: true, // Permette l'invio di cookie e credenziali
+  origin: '*', // Point to the approved origin
+  methods: ['GET', 'POST', 'PUT', 'DELETE'], // Specify the allowed HTTP methods
+  credentials: true, // Allows cookies and credentials to be sent
 });
 
 server.decorate('authenticate', async (request: { jwtVerify: () => Promise<void>; }, reply: { send: (arg0: unknown) => void; }) => {
@@ -92,6 +92,7 @@ server.register(fastifySwagger, {
       { name: 'RouteArtwork' },
       { name: 'Route' },
       { name: 'User' },
+      { name: 'UserVisibility' },
       { name: 'Database' },
       { name: 'Auth' },
       { name: 'Health' }
@@ -157,7 +158,7 @@ server.register(routes);
 // Start the server
 const start = async () => {
   try {
-    await server.listen({ port: 3000 });
+    await server.listen({ port: 3000, host: '0.0.0.0' });
     server.log.info('Server started on http://localhost:3000');
   } catch (err) {
     server.log.error(err);

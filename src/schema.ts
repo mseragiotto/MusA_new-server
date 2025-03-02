@@ -653,6 +653,32 @@ const schema: Record<string, FastifySchema> = {
         $ref: 'Roles#'
       }
     }
+  },
+  UserVisibility: {
+    $id: 'UserVisibility',
+    type: 'object',
+    properties: {
+      id: {
+        type: 'number'
+      },
+      userId: {
+        type: 'number'
+      },
+      museumId: {
+        type: 'number'
+      },
+      creation_date: {
+        type: 'string',
+        format: 'date-time'
+      },
+      last_update: {
+        type: 'string',
+        format: 'date-time'
+      },
+      version: {
+        type: 'number'
+      }
+    }
   }
 };
 
